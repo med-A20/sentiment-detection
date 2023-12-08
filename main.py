@@ -10,6 +10,7 @@ from transformers import AutoTokenizer
 from transformers import pipeline
 
 # ++++++++++++++++++++++++++++
+nltk.download('all')
 # Vader
 sia = SentimentIntensityAnalyzer()
 
