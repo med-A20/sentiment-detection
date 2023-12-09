@@ -4,9 +4,9 @@ import numpy as np
 # -----------------------------------------
 import nltk 
 from nltk.sentiment import SentimentIntensityAnalyzer
-from transformers import AutoModelForSequenceClassification
-from scipy.special import softmax
-from transformers import AutoTokenizer
+# from transformers import AutoModelForSequenceClassification
+# from scipy.special import softmax
+# from transformers import AutoTokenizer
 from transformers import pipeline
 
 # ++++++++++++++++++++++++++++
@@ -15,9 +15,9 @@ nltk.download('all')
 sia = SentimentIntensityAnalyzer()
 
 # Roberta
-MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
-tokenizer = AutoTokenizer.from_pretrained(MODEL)
-model = AutoModelForSequenceClassification.from_pretrained(MODEL)
+# MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
+# tokenizer = AutoTokenizer.from_pretrained(MODEL)
+# model = AutoModelForSequenceClassification.from_pretrained(MODEL)
 # model.save_pretrained(MODEL)
 
 # pipeline
@@ -33,16 +33,16 @@ def vader(text):
     except:
         pass
 
-@st.cache_data
-def roberta(text):
-    try:
-        encoded_input = tokenizer(text, return_tensors='pt')
-        output = model(**encoded_input)
-        scores = output[0][0].detach().numpy()
-        scores = softmax(scores)
-        return scores
-    except:
-        pass
+# @st.cache_data
+# def roberta(text):
+#     try:
+#         encoded_input = tokenizer(text, return_tensors='pt')
+#         output = model(**encoded_input)
+#         scores = output[0][0].detach().numpy()
+#         scores = softmax(scores)
+#         return scores
+#     except:
+#         pass
 
 @st.cache_data
 def pipeline(text):
@@ -56,8 +56,8 @@ with st.sidebar:
     st.header("Choose a Method")
     method = st.selectbox('Methods', (
         "Vader",
-        "Roberta pré-trained Model",
-        "Roberta with pipeline"
+        # "Roberta pré-trained Model",
+        "Roberta pipeline"
     ))
 
 
@@ -76,19 +76,19 @@ if method == "Vader":
             st.write(f'Your Text are classified as Neutre with {res["neu"]:.4}% as accuracy')
             
         
-elif method == "Roberta pré-trained Model":
-    st.header(method)
-    title = st.text_area('Your Text')
-    button = st.button(label="Predict")
-    if button:
-        x = roberta(title)
-        res = np.argmax(x)
-        if res == 0:
-            st.write(f'Your Text are classified as Negative with {x[res]:.4f}% as accuracy')
-        if res == 1 :
-            st.write(f'Your Text are classified as Positive with {x[res]:.4f}% as accuracy')
-        else:
-            st.write(f'Your Text are classified as Neutre with {x[res]:.4f}% as accuracy')
+# elif method == "Roberta pré-trained Model":
+#     st.header(method)
+#     title = st.text_area('Your Text')
+#     button = st.button(label="Predict")
+#     if button:
+#         x = roberta(title)
+#         res = np.argmax(x)
+#         if res == 0:
+#             st.write(f'Your Text are classified as Negative with {x[res]:.4f}% as accuracy')
+#         if res == 1 :
+#             st.write(f'Your Text are classified as Positive with {x[res]:.4f}% as accuracy')
+#         else:
+#             st.write(f'Your Text are classified as Neutre with {x[res]:.4f}% as accuracy')
 else:
     st.header(method)
     title = st.text_area('Your Text')
