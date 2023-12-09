@@ -55,7 +55,7 @@ method = "Vader"
 with st.sidebar:
     st.header("Choose a Method")
     method = st.selectbox('Methods', (
-        "Vader Methode",
+        "Vader Method",
         # "Roberta pré-trained Model",
         "Roberta pre-trained Model"
     ))
